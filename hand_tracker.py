@@ -151,6 +151,15 @@ class HandTracker:
         f = self.fingers_up(hand_idx)
         return not any(f[1:])
 
+    def is_pinch_gesture(self, hand_idx: int = 0) -> bool:
+        """Detecta se o polegar e o indicador estão próximos (pinça)."""
+        if not self.landmarks or hand_idx >= len(self.landmarks):
+            return False
+        lm = self.landmarks[hand_idx]
+        # Distância entre ponta do polegar (4) e ponta do indicador (8)
+        dist = np.sqrt((lm[4][0] - lm[8][0])**2 + (lm[4][1] - lm[8][1])**2)
+        return dist < 40  # Limiar de proximidade para pinça
+
     def close(self):
         if self.detector:
             self.detector.close()

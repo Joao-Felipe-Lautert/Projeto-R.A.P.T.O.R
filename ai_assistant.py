@@ -7,6 +7,7 @@ Exibe respostas no painel lateral da interface.
 import os
 import re
 import math
+import time
 import textwrap
 from datetime import datetime
 
@@ -55,6 +56,7 @@ class AIAssistant:
         self.input_text: str = ""
         self.thinking: bool = False
         self.last_response: str = ""
+        self.is_focused: bool = False  # Indica se o chat está em modo de digitação
 
         # Cliente OpenAI
         self.client = None
@@ -272,20 +274,26 @@ class AIAssistant:
 
     def _render_input_box(self, frame, x, y, pw):
         """Renderiza a caixa de input."""
+        # Cor da borda muda se estiver focado
+        border_color = (0, 255, 200) if self.is_focused else COLOR_BORDER
+        bg_color = (25, 35, 45) if self.is_focused else (15, 25, 35)
+
         # Fundo
         cv2.rectangle(frame, (x + 5, y), (x + pw - 5, y + 70),
-                      (15, 25, 35), -1)
+                      bg_color, -1)
         cv2.rectangle(frame, (x + 5, y), (x + pw - 5, y + 70),
-                      COLOR_BORDER, 1)
+                      border_color, 2 if self.is_focused else 1)
 
         # Label
-        cv2.putText(frame, "Digite sua pergunta:",
+        label = "[ MODO DIGITACAO ]" if self.is_focused else "Pressione TAB para digitar:"
+        cv2.putText(frame, label,
                     (x + 10, y + 18),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 140, 140), 1,
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 200, 200) if self.is_focused else (0, 140, 140), 1,
                     cv2.LINE_AA)
 
         # Texto digitado
-        display_text = self.input_text[-45:] + ("_" if not self.thinking else "")
+        cursor = "_" if (int(time.time() * 2) % 2 == 0 and self.is_focused) else ""
+        display_text = self.input_text[-45:] + cursor
         cv2.putText(frame, display_text, (x + 10, y + 50),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.55, COLOR_INPUT, 1,
                     cv2.LINE_AA)
@@ -295,14 +303,26 @@ class AIAssistant:
         Processa tecla pressionada.
         Retorna True se deve enviar mensagem.
         """
+        # Se pressionar TAB, alterna o foco do chat
+        if key == 9:  # TAB
+            self.is_focused = not self.is_focused
+            return False
+
+        if not self.is_focused:
+            return False
+
         if key == 13:  # Enter
             if self.input_text.strip():
                 self.add_user_message(self.input_text)
+                self.is_focused = False # Perde o foco após enviar
                 return True
         elif key == 8:  # Backspace
             self.input_text = self.input_text[:-1]
-        elif key == 27:  # Esc - limpa input
-            self.input_text = ""
+        elif key == 27:  # Esc - limpa input ou sai do foco
+            if self.input_text:
+                self.input_text = ""
+            else:
+                self.is_focused = False
         elif 32 <= key <= 126:  # Caracteres imprimíveis
             if len(self.input_text) < 200:
                 self.input_text += chr(key)

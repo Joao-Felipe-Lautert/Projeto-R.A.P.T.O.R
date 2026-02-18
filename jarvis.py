@@ -161,16 +161,22 @@ class JARVIS:
 
             # Processa teclas
             key = cv2.waitKey(1) & 0xFF
-            if key in (ord("q"), ord("Q"), 27):
-                break
-            elif key == ord("z") or key == ord("Z"):
-                self.canvas.undo()
-            elif key == ord("c") or key == ord("C"):
-                self.canvas.clear()
-            elif key == ord("a") or key == ord("A"):
-                self._trigger_analysis()
-            else:
+            
+            # Se o chat estiver focado, envia todas as teclas para ele
+            if self.ai.is_focused:
                 self.ai.handle_key(key)
+            else:
+                # Atalhos globais (apenas se o chat NÃO estiver focado)
+                if key in (ord("q"), ord("Q"), 27):
+                    break
+                elif key == ord("z") or key == ord("Z"):
+                    self.canvas.undo()
+                elif key == ord("c") or key == ord("C"):
+                    self.canvas.clear()
+                elif key == ord("a") or key == ord("A"):
+                    self._trigger_analysis()
+                elif key == 9: # TAB para focar no chat
+                    self.ai.is_focused = True
 
         self._cleanup()
 
@@ -341,10 +347,7 @@ class JARVIS:
                 "time": __import__("datetime").datetime.now().strftime("%H:%M"),
             })
         else:
-            self.canvas.draw_result(
-                "Nenhuma forma detectada.\nTente desenhar mais devagar.",
-                (CAM_WIDTH // 4, CAM_HEIGHT // 2)
-            )
+            self.canvas.add_object("text", {"text": "Nenhuma forma detectada.", "pos": (CAM_WIDTH // 4, CAM_HEIGHT // 2)})
 
         self.analyzing = False
 

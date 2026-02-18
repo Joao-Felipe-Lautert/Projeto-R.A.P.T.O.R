@@ -262,6 +262,7 @@ class ResultRenderer:
             "[ 1 dedo ] Desenhar",
             "[ 2 dedos ] Apagar",
             "[ mao aberta ] Analisar",
+            "[ pinca ] Mover objeto",
             "[ punho ] Limpar tudo",
             "[ Z ] Desfazer",
             "[ Q ] Sair",
