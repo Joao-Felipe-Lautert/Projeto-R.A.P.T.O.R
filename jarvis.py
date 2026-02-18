@@ -130,7 +130,8 @@ class JARVIS:
             frame = cv2.resize(frame, (CAM_WIDTH, CAM_HEIGHT))
 
             # Processa mão
-            frame = self.tracker.process(frame)
+            if self.tracker:
+                frame = self.tracker.process(frame)
 
             # Atualiza gestos e desenho
             self._process_gestures(frame)
