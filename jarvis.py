@@ -15,7 +15,7 @@ Gestos:
   ✦ 1 dedo (indicador)     → Desenhar
   ✦ 2 dedos (ind. + médio) → Apagar (borracha)
   ✦ Mão aberta             → Analisar desenho
-  ✦ Punho fechado          → Limpar canvas
+  ✦ [C]                    → Limpar canvas
   ✦ [Z]                    → Desfazer
   ✦ [Q] ou [ESC]           → Sair
 """
@@ -206,27 +206,8 @@ class JARVIS:
         is_drawing  = self.tracker.is_drawing_gesture()
         is_erasing  = self.tracker.is_erase_gesture()
         is_confirm  = self.tracker.is_confirm_gesture()
-        is_fist     = self.tracker.is_fist_gesture()
 
         now = time.time()
-
-        # ── Punho: limpar canvas ──
-        if is_fist:
-            if self.fist_start == 0:
-                self.fist_start = now
-            elif now - self.fist_start > FIST_HOLD:
-                self.canvas.clear()
-                self.fist_start = 0
-                self.gesture_label = "Canvas limpo!"
-            else:
-                remaining = FIST_HOLD - (now - self.fist_start)
-                self.gesture_label = f"Segure para limpar ({remaining:.1f}s)"
-            self.mode = "idle"
-            if self.canvas.drawing:
-                self.canvas.end_stroke()
-            return
-        else:
-            self.fist_start = 0
 
         # ── Mão aberta: analisar ──
         if is_confirm:

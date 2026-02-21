@@ -1,7 +1,6 @@
 """
-JARVIS - Módulo de Rastreamento de Mão (Versão Definitiva Task API)
-Utiliza mediapipe.tasks para 100% de compatibilidade com Python 3.12+.
-Baixa o modelo automaticamente se não existir.
+JARVIS - Módulo de Rastreamento de Mão (Versão Corrigida)
+Inclui: Gesto de Pinça (Desenhar), Borracha e Confirmação.
 """
 
 import cv2
@@ -10,6 +9,7 @@ import numpy as np
 import os
 import urllib.request
 import time
+import math
 
 # Importação da nova API de tarefas do MediaPipe
 from mediapipe.tasks import python
@@ -27,7 +27,6 @@ class HandTracker:
         self.hand_detected = False
         self.landmarks = []
         
-        # Configuração do detector de tarefas (Task API)
         try:
             base_options = python.BaseOptions(model_asset_path=self.model_path)
             options = vision.HandLandmarkerOptions(
@@ -64,12 +63,9 @@ class HandTracker:
         self.landmarks = []
         self.hand_detected = False
 
-        # Converte frame para formato MediaPipe
-        # Importante: O frame deve estar em RGB para o MediaPipe
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
         
-        # Requer timestamp em milissegundos
         timestamp_ms = int(time.time() * 1000)
         
         try:
@@ -82,8 +78,6 @@ class HandTracker:
                     for lm in hand_lms:
                         lm_list.append((int(lm.x * w), int(lm.y * h)))
                     self.landmarks.append(lm_list)
-                    
-                    # Desenha manualmente para evitar dependência de mp.solutions
                     self._draw_landmarks_manual(frame, lm_list)
         except Exception as e:
             print(f"[AVISO] Erro no processamento do frame: {e}")
@@ -91,24 +85,24 @@ class HandTracker:
         return frame
 
     def _draw_landmarks_manual(self, frame, lm_list):
-        """Desenha pontos e conexões manualmente sem mp.solutions."""
-        # Conexões simplificadas (dedos)
+        """Desenha pontos e conexões manualmente."""
         connections = [
-            (0,1), (1,2), (2,3), (3,4), # polegar
-            (0,5), (5,6), (6,7), (7,8), # indicador
-            (0,9), (9,10), (10,11), (11,12), # médio
-            (0,13), (13,14), (14,15), (15,16), # anelar
-            (0,17), (17,18), (18,19), (19,20), # mínimo
-            (5,9), (9,13), (13,17), # palma superior
-            (0,5), (0,17) # palma inferior
+            (0,1), (1,2), (2,3), (3,4), (0,5), (5,6), (6,7), (7,8),
+            (0,9), (9,10), (10,11), (11,12), (0,13), (13,14), (14,15), (15,16),
+            (0,17), (17,18), (18,19), (19,20), (5,9), (9,13), (13,17), (0,5), (0,17)
         ]
-        # Desenha conexões (ciano neon)
         for p1, p2 in connections:
             cv2.line(frame, lm_list[p1], lm_list[p2], (200, 255, 0), 2, cv2.LINE_AA)
-        
-        # Desenha pontos (amarelo neon)
         for pt in lm_list:
             cv2.circle(frame, pt, 4, (0, 255, 255), -1, cv2.LINE_AA)
+
+    def get_distance(self, p1_idx: int, p2_idx: int, hand_idx: int = 0):
+        """Calcula a distância em pixels entre dois pontos."""
+        if self.landmarks and hand_idx < len(self.landmarks):
+            p1 = self.landmarks[hand_idx][p1_idx]
+            p2 = self.landmarks[hand_idx][p2_idx]
+            return math.hypot(p2[0] - p1[0], p2[1] - p1[1])
+        return float('inf')
 
     def get_index_finger_tip(self, hand_idx: int = 0):
         if self.landmarks and hand_idx < len(self.landmarks):
@@ -116,49 +110,34 @@ class HandTracker:
         return None
 
     def fingers_up(self, hand_idx: int = 0) -> list:
-        """Retorna lista de booleanos [polegar, indicador, médio, anelar, mínimo]."""
+        """Retorna lista de booleanos para cada dedo levantado."""
         if not self.landmarks or hand_idx >= len(self.landmarks):
             return [False] * 5
-
         lm = self.landmarks[hand_idx]
         fingers = []
-        
-        # Polegar (lógica baseada na posição X relativa à base do indicador)
-        # Ajustado para mão espelhada
+        # Polegar
         fingers.append(lm[4][0] < lm[3][0])
-
-        # Outros 4 dedos (ponta acima da articulação anterior)
+        # Outros 4 dedos (indicador, médio, anelar, mínimo)
         tips = [8, 12, 16, 20]
         pips = [6, 10, 14, 18]
         for tip, pip in zip(tips, pips):
             fingers.append(lm[tip][1] < lm[pip][1])
-
         return fingers
 
     def is_drawing_gesture(self, hand_idx: int = 0) -> bool:
-        f = self.fingers_up(hand_idx)
-        return f[1] and not f[2] and not f[3] and not f[4]
+        """Ativa quando o polegar (4) e o indicador (8) estão próximos (Pinça)."""
+        dist = self.get_distance(4, 8, hand_idx)
+        return dist < 50  # Ajuste este valor conforme necessário
 
     def is_erase_gesture(self, hand_idx: int = 0) -> bool:
+        """Borracha: Indicador e Médio levantados."""
         f = self.fingers_up(hand_idx)
         return f[1] and f[2] and not f[3] and not f[4]
 
     def is_confirm_gesture(self, hand_idx: int = 0) -> bool:
+        """Confirmação: Mão aberta (todos os dedos exceto polegar levantados)."""
         f = self.fingers_up(hand_idx)
-        return all(f[1:])
-
-    def is_fist_gesture(self, hand_idx: int = 0) -> bool:
-        f = self.fingers_up(hand_idx)
-        return not any(f[1:])
-
-    def is_pinch_gesture(self, hand_idx: int = 0) -> bool:
-        """Detecta se o polegar e o indicador estão próximos (pinça)."""
-        if not self.landmarks or hand_idx >= len(self.landmarks):
-            return False
-        lm = self.landmarks[hand_idx]
-        # Distância entre ponta do polegar (4) e ponta do indicador (8)
-        dist = np.sqrt((lm[4][0] - lm[8][0])**2 + (lm[4][1] - lm[8][1])**2)
-        return dist < 40  # Limiar de proximidade para pinça
+        return all(f[1:]) # Verifica se indicador, médio, anelar e mínimo estão Up
 
     def close(self):
         if self.detector:
