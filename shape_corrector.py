@@ -1,5 +1,5 @@
 """
-JARVIS - Módulo de Correção de Formas
+RAPTOR - Módulo de Correção de Formas
 Redesenha formas tortas de maneira geométrica perfeita sobre o canvas.
 """
 
@@ -10,7 +10,7 @@ from shape_recognizer import ShapeResult
 import mediapipe as mp
 
 
-# Cores estilo JARVIS
+# Cores estilo RAPTOR
 COLOR_CORRECTED = (0, 255, 180)    # Verde-ciano neon
 COLOR_ORIGINAL  = (40, 40, 40)     # Cinza escuro (apaga original)
 COLOR_LABEL     = (0, 220, 255)    # Amarelo-ciano
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     main()
 
 class ResultRenderer:
-    """Renderiza resultados matemáticos no canvas com estilo JARVIS."""
+    """Renderiza resultados matemáticos no canvas com estilo RAPTOR."""
 
     @staticmethod
     def draw_math_result(canvas: np.ndarray, result_text: str,
@@ -181,11 +181,13 @@ class ResultRenderer:
                     cv2.LINE_AA)
         return canvas
 
+# --- HUD Panel ---
+
     @staticmethod
     def draw_hud_panel(frame: np.ndarray, mode: str, gesture: str,
                         fps: float, width: int, height: int) -> np.ndarray:
         """
-        Desenha o painel HUD estilo JARVIS no canto superior.
+        Desenha o painel HUD estilo RAPTOR no canto superior.
         """
         # Barra superior
         overlay = frame.copy()
@@ -196,7 +198,7 @@ class ResultRenderer:
         cv2.line(frame, (0, 70), (width, 70), (0, 180, 180), 1)
 
         # Título
-        cv2.putText(frame, "J.A.R.V.I.S", (20, 45),
+        cv2.putText(frame, "R.A.P.T.O.R.", (20, 45),
                     cv2.FONT_HERSHEY_DUPLEX, 1.2, (0, 255, 200), 2,
                     cv2.LINE_AA)
 
@@ -220,7 +222,7 @@ class ResultRenderer:
 
         # Legenda de gestos (canto inferior esquerdo)
         legend = [
-            "[ Pinça ] Desenhar",
+            "[ Pinca ] Desenhar",
             "[ 2 dedos ] Apagar",
             "[ mao aberta ] Analisar",
             "[ C ] Limpar tudo",

@@ -1,5 +1,5 @@
 """
-JARVIS - Módulo de Canvas de Desenho (Versão Manipulável)
+RAPTOR - Módulo de Canvas de Desenho (Versão Manipulável)
 Gerencia o canvas virtual e objetos que podem ser movidos e redimensionados.
 """
 
@@ -8,7 +8,7 @@ import numpy as np
 from collections import deque
 
 
-# Paleta de cores estilo JARVIS
+# Paleta de cores estilo RAPTOR
 COLORS = {
     "draw":    (0, 255, 200),    # Ciano neon
     "erase":   (0, 0, 0),        # Preto (apagar)

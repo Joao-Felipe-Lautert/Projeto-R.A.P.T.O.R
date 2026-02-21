@@ -1,5 +1,5 @@
 """
-J.A.R.V.I.S. — Script de Configuração e Instalação
+R.A.P.T.O.R. — Script de Configuração e Instalação
 Execute: python setup.py
 """
 
@@ -93,14 +93,14 @@ def test_camera():
             cap.release()
         else:
             print("[AVISO] Câmera índice 0 não disponível.")
-            print("        Tente: python jarvis.py --camera 1")
+            print("        Tente: python raptor.py --camera 1")
     except ImportError:
         print("[AVISO] OpenCV não importado ainda.")
 
 
 def main():
     print("=" * 50)
-    print("  J.A.R.V.I.S. — Configuração do Sistema")
+    print("  R.A.P.T.O.R. — Configuração do Sistema")
     print("=" * 50)
     print()
 
@@ -114,8 +114,8 @@ def main():
     print("=" * 50)
     print("  Configuração concluída!")
     print()
-    print("  Para iniciar o JARVIS:")
-    print("  python jarvis.py")
+    print("  Para iniciar o RAPTOR:")
+    print("  python raptor.py")
     print("=" * 50)
 
 

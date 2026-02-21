@@ -1,5 +1,5 @@
 """
-JARVIS - Módulo de Reconhecimento de Formas
+RAPTOR - Módulo de Reconhecimento de Formas
 Detecta e classifica formas geométricas desenhadas no canvas.
 Calcula área, perímetro e corrige formas tortas.
 """

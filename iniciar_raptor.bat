@@ -1,9 +1,9 @@
 @echo off
-title J.A.R.V.I.S.
+title R.A.P.T.O.R.
 color 0B
 echo.
 echo  ============================================
-echo   J.A.R.V.I.S. - Iniciando...
+echo   R.A.P.T.O.R. - Iniciando...
 echo  ============================================
 echo.
 
@@ -19,8 +19,8 @@ REM Instala dependencias se necessario
 echo [INFO] Verificando dependencias...
 python -m pip install -r requirements.txt --quiet
 
-echo [INFO] Iniciando JARVIS...
+echo [INFO] Iniciando RAPTOR...
 echo.
-python jarvis.py %*
+python raptor.py %*
 
 pause

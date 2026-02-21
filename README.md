@@ -1,4 +1,4 @@
-# J.A.R.V.I.S. — Just A Rather Very Intelligent System
+# R.A.P.T.O.R. — Just A Rather Very Intelligent System
 
 > *"Bem-vindo ao futuro, senhor."*
 
@@ -15,8 +15,8 @@ Sistema de visão computacional estilo Tony Stark que permite desenhar no ar com
 | **Cálculos automáticos** | Área, perímetro, raio, lados — exibidos automaticamente |
 | **Correção de formas** | Redesenha formas tortas de maneira geometricamente perfeita |
 | **Expressões matemáticas** | Reconhece contas desenhadas e coloca o resultado ao lado do `=` |
-| **Assistente de IA** | Responde perguntas por digitação usando GPT-4 |
-| **Interface HUD** | Visual futurista estilo JARVIS com painel de informações |
+| **Assistente de IA** | Responde perguntas por digitação usando GPT-4.1-mini (ou localmente) |
+| **Interface HUD** | Visual futurista estilo RAPTOR com painel de informações |
 
 ---
 
@@ -25,7 +25,8 @@ Sistema de visão computacional estilo Tony Stark que permite desenhar no ar com
 - Python 3.10 ou superior
 - Webcam funcional
 - Tesseract OCR (para reconhecimento de expressões matemáticas)
-- Chave de API OpenAI (opcional, para respostas de IA completas)
+- Chave de API OpenAI (opcional, para respostas de IA completas com GPT-4.1-mini)
+- Conexão com a internet para download inicial do modelo `hand_landmarker.task` do MediaPipe.
 
 ---
 
@@ -34,7 +35,7 @@ Sistema de visão computacional estilo Tony Stark que permite desenhar no ar com
 ### 1. Clone ou extraia o projeto
 
 ```bash
-cd jarvis
+cd Projeto-R.A.P.T.O.R-main
 ```
 
 ### 2. Instale as dependências Python
@@ -71,20 +72,20 @@ $env:OPENAI_API_KEY = "sua-chave-aqui"
 export OPENAI_API_KEY="sua-chave-aqui"
 ```
 
-> **Sem a chave OpenAI:** o assistente funciona em modo local com respostas básicas (hora, data, cálculos simples). Com a chave, responde qualquer pergunta via GPT-4.
+> **Sem a chave OpenAI:** o assistente funciona em modo local com respostas básicas (hora, data, cálculos simples). Com a chave, responde qualquer pergunta via GPT-4.1-mini.
 
 ---
 
 ## Como Executar
 
 ```bash
-python jarvis.py
+python raptor.py
 ```
 
 **Opções:**
 ```bash
-python jarvis.py --camera 0    # câmera padrão (índice 0)
-python jarvis.py --camera 1    # segunda câmera
+python raptor.py --camera 0    # câmera padrão (índice 0)
+python raptor.py --camera 1    # segunda câmera
 ```
 
 ---
@@ -121,7 +122,7 @@ python jarvis.py --camera 1    # segunda câmera
 1. **Levante apenas o indicador** para entrar no modo de desenho
 2. **Mova o dedo** para desenhar a forma desejada (círculo, quadrado, triângulo, etc.)
 3. **Abra a mão completamente** e **segure por ~0.6 segundos**
-4. O JARVIS irá:
+4. O RAPTOR irá:
    - Detectar a forma desenhada
    - **Corrigir** a forma (redesenhar geometricamente perfeita)
    - Exibir **área, perímetro e medidas** ao lado da forma
@@ -136,22 +137,24 @@ python jarvis.py --camera 1    # segunda câmera
 
 1. **Digite sua pergunta** no campo de texto (painel direito)
 2. Pressione **Enter** para enviar
-3. O JARVIS responderá no painel de chat
+3. O RAPTOR responderá no painel de chat
 
 ---
 
 ## Estrutura do Projeto
 
 ```
-jarvis/
-├── jarvis.py           # Arquivo principal — execute este
+Projeto-R.A.P.T.O.R-main/
+├── raptor.py           # Arquivo principal — execute este
 ├── hand_tracker.py     # Rastreamento de mão (MediaPipe)
 ├── canvas.py           # Canvas de desenho virtual
 ├── shape_recognizer.py # Reconhecimento de formas geométricas
 ├── shape_corrector.py  # Correção e renderização de formas
 ├── math_recognizer.py  # Reconhecimento de expressões matemáticas
 ├── ai_assistant.py     # Assistente de IA (OpenAI GPT)
+├── hand_landmarker.task # Modelo do MediaPipe para rastreamento de mãos
 ├── requirements.txt    # Dependências Python
+├── setup.py            # Script de configuração e instalação
 └── README.md           # Este arquivo
 ```
 
@@ -186,7 +189,7 @@ jarvis/
 
 **Câmera não abre:**
 ```bash
-python jarvis.py --camera 1  # tente outro índice
+python raptor.py --camera 1  # tente outro índice
 ```
 
 **Mão não detectada:**
@@ -212,8 +215,8 @@ python jarvis.py --camera 1  # tente outro índice
 | **NumPy** | Operações matriciais e geométricas |
 | **SymPy** | Avaliação de expressões matemáticas simbólicas |
 | **Tesseract OCR** | Reconhecimento de texto/números desenhados |
-| **OpenAI GPT-4** | Respostas inteligentes do assistente |
+| **OpenAI GPT-4.1-mini** | Respostas inteligentes do assistente |
 
 ---
 
-*"Sempre às ordens, senhor."* — J.A.R.V.I.S.
+*"Sempre às ordens, senhor."* — R.A.P.T.O.R.

@@ -1,5 +1,5 @@
 """
-JARVIS - Módulo de Rastreamento de Mão (Versão Corrigida)
+RAPTOR - Módulo de Rastreamento de Mão (Versão Corrigida)
 Inclui: Gesto de Pinça (Desenhar), Borracha e Confirmação.
 """
 

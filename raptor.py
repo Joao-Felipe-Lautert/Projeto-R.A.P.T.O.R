@@ -1,18 +1,18 @@
 """
 ╔══════════════════════════════════════════════════════════════════════╗
-║          J.A.R.V.I.S. — Just A Rather Very Intelligent System       ║
+║          R.A.P.T.O.R. — Just A Rather Very Intelligent System       ║
 ║                    Desenvolvido em Python + OpenCV                   ║
 ╚══════════════════════════════════════════════════════════════════════╝
 
 Funcionalidades:
-  • Desenho no ar com o dedo indicador via webcam
+  • Desenho no ar com o movimento de pinça via webcam
   • Reconhecimento e correção de formas geométricas
   • Cálculo automático de área, perímetro e medidas
   • Reconhecimento de expressões matemáticas desenhadas
   • Assistente de IA para responder perguntas por digitação
 
 Gestos:
-  ✦ 1 dedo (indicador)     → Desenhar
+  ✦ Pinça                  → Desenhar
   ✦ 2 dedos (ind. + médio) → Apagar (borracha)
   ✦ Mão aberta             → Analisar desenho
   ✦ [C]                    → Limpar canvas
@@ -56,10 +56,10 @@ ERASE_RADIUS   = 35    # raio da borracha
 #  Classe principal
 # ──────────────────────────────────────────────────────────────────────
 
-class JARVIS:
+class RAPTOR:
     def __init__(self, camera_index: int = 0):
         print("╔══════════════════════════════════════════╗")
-        print("║  Iniciando J.A.R.V.I.S. ...              ║")
+        print("║  Iniciando R.A.P.T.O.R. ...              ║")
         print("╚══════════════════════════════════════════╝")
 
         # Câmera
@@ -116,8 +116,8 @@ class JARVIS:
     # ──────────────────────────────────────────────────────────────────
 
     def run(self):
-        cv2.namedWindow("J.A.R.V.I.S.", cv2.WINDOW_NORMAL)
-        cv2.resizeWindow("J.A.R.V.I.S.", TOTAL_WIDTH, CAM_HEIGHT)
+        cv2.namedWindow("R.A.P.T.O.R.", cv2.WINDOW_NORMAL)
+        cv2.resizeWindow("R.A.P.T.O.R.", TOTAL_WIDTH, CAM_HEIGHT)
 
         while True:
             ret, frame = self.cap.read()
@@ -157,7 +157,7 @@ class JARVIS:
             # Atualiza FPS
             self._update_fps()
 
-            cv2.imshow("J.A.R.V.I.S.", full_frame)
+            cv2.imshow("R.A.P.T.O.R.", full_frame)
 
             # Processa teclas
             key = cv2.waitKey(1) & 0xFF
@@ -368,7 +368,7 @@ class JARVIS:
 
     def _cleanup(self):
         """Libera recursos."""
-        print("\n[INFO] Encerrando J.A.R.V.I.S. ...")
+        print("\n[INFO] Encerrando R.A.P.T.O.R. ...")
         self.tracker.close()
         self.cap.release()
         cv2.destroyAllWindows()
@@ -382,14 +382,14 @@ class JARVIS:
 def main():
     import argparse
     parser = argparse.ArgumentParser(
-        description="J.A.R.V.I.S. — Assistente de IA com visão computacional"
+        description="R.A.P.T.O.R. — Assistente de IA com visão computacional"
     )
     parser.add_argument("--camera", type=int, default=0,
                         help="Índice da câmera (padrão: 0)")
     args = parser.parse_args()
 
-    jarvis = JARVIS(camera_index=args.camera)
-    jarvis.run()
+    raptor = RAPTOR(camera_index=args.camera)
+    raptor.run()
 
 
 if __name__ == "__main__":

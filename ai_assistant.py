@@ -1,5 +1,5 @@
 """
-JARVIS - Módulo de Assistente de IA
+RAPTOR - Módulo de Assistente de IA
 Responde perguntas por digitação usando OpenAI GPT.
 Exibe respostas no painel lateral da interface.
 """
@@ -21,7 +21,7 @@ import cv2
 import numpy as np
 
 
-SYSTEM_PROMPT = """Você é J.A.R.V.I.S. (Just A Rather Very Intelligent System), 
+SYSTEM_PROMPT = """Você é R.A.P.T.O.R. (Just A Rather Very Intelligent System), 
 o assistente de IA do Tony Stark. Você é extremamente inteligente, levemente 
 sarcástico, mas sempre útil. Responda de forma concisa e direta (máximo 3-4 linhas).
 Você pode responder perguntas gerais, fazer cálculos, explicar conceitos científicos,
@@ -33,7 +33,7 @@ Use termos técnicos quando apropriado, mas seja claro."""
 COLOR_BG       = (8, 15, 25)
 COLOR_BORDER   = (0, 160, 160)
 COLOR_USER     = (200, 200, 255)
-COLOR_JARVIS   = (0, 255, 200)
+COLOR_RAPTOR   = (0, 255, 200)
 COLOR_TITLE    = (0, 220, 255)
 COLOR_INPUT    = (255, 255, 200)
 COLOR_THINKING = (100, 100, 200)
@@ -164,7 +164,7 @@ class AIAssistant:
         text_lower = text.lower()
 
         if any(w in text_lower for w in ["olá", "oi", "hello", "hey"]):
-            return "Olá! Sou J.A.R.V.I.S. Como posso ajudá-lo hoje?"
+            return "Olá! Sou R.A.P.T.O.R. Como posso ajudá-lo hoje?"
 
         if any(w in text_lower for w in ["hora", "horas", "que horas"]):
             return f"São {datetime.now().strftime('%H:%M:%S')}."
@@ -173,7 +173,7 @@ class AIAssistant:
             return f"Hoje é {datetime.now().strftime('%d/%m/%Y')}."
 
         if any(w in text_lower for w in ["nome", "quem é você", "quem és"]):
-            return "Sou J.A.R.V.I.S. — Just A Rather Very Intelligent System."
+            return "Sou R.A.P.T.O.R. — Just A Rather Very Intelligent System."
 
         if any(w in text_lower for w in ["obrigado", "valeu", "thanks"]):
             return "Sempre às ordens, senhor."
@@ -209,7 +209,7 @@ class AIAssistant:
         cv2.line(frame, (x_offset, 0), (x_offset, h), COLOR_BORDER, 2)
 
         # Título
-        cv2.putText(frame, "[ J.A.R.V.I.S. CHAT ]",
+        cv2.putText(frame, "[ R.A.P.T.O.R. CHAT ]",
                     (x_offset + 10, 40),
                     cv2.FONT_HERSHEY_DUPLEX, 0.7, COLOR_TITLE, 1,
                     cv2.LINE_AA)
@@ -236,8 +236,8 @@ class AIAssistant:
                 break
 
             is_user = msg["role"] == "user"
-            color = COLOR_USER if is_user else COLOR_JARVIS
-            prefix = "Você: " if is_user else "JARVIS: "
+            color = COLOR_USER if is_user else COLOR_RAPTOR
+            prefix = "Você: " if is_user else "RAPTOR: "
             font_scale = 0.45
             thickness = 1
 
@@ -268,7 +268,7 @@ class AIAssistant:
 
         # Indicador "pensando..."
         if self.thinking:
-            cv2.putText(frame, "JARVIS processando...", (x + 10, y_end - 10),
+            cv2.putText(frame, "RAPTOR processando...", (x + 10, y_end - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.45, COLOR_THINKING, 1,
                         cv2.LINE_AA)
 

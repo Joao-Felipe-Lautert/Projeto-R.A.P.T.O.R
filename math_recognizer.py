@@ -1,5 +1,5 @@
 """
-JARVIS - Módulo de Reconhecimento Matemático
+RAPTOR - Módulo de Reconhecimento Matemático
 Reconhece expressões matemáticas desenhadas no canvas usando OCR (Tesseract)
 e avalia o resultado com sympy/eval seguro.
 """
