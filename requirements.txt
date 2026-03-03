@@ -7,8 +7,7 @@ mediapipe>=0.10.11
 numpy>=1.24.0
 Pillow>=10.0.0
 
-# Inteligência Artificial e OCR
-openai>=1.0.0
+# OCR
 pytesseract>=0.3.10
 
 # Matemática e Simbologia
@@ -16,3 +15,7 @@ sympy>=1.12
 
 # Utilitários
 requests>=2.31.0
+
+# Reconhecimento por audio
+pyaudio
+SpeechRecognition
