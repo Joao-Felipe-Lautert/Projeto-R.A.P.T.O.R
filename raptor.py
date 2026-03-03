@@ -35,17 +35,16 @@ from canvas import DrawingCanvas, COLORS
 from shape_recognizer import ShapeRecognizer
 from shape_corrector import ShapeCorrector, ResultRenderer
 from math_recognizer import MathRecognizer
-from ai_assistant import AIAssistant
+
 
 
 # ──────────────────────────────────────────────────────────────────────
 #  Configurações
 # ──────────────────────────────────────────────────────────────────────
 
-CAM_WIDTH      = 1280
-CAM_HEIGHT     = 720
-CHAT_PANEL_W   = 380
-TOTAL_WIDTH    = CAM_WIDTH + CHAT_PANEL_W
+CAM_WIDTH      = 1366
+CAM_HEIGHT     = 768
+TOTAL_WIDTH    = CAM_WIDTH + CAM_HEIGHT
 
 GESTURE_HOLD   = 0.6   # segundos para confirmar gesto de análise
 FIST_HOLD      = 0.8   # segundos para confirmar limpeza
@@ -84,7 +83,7 @@ class RAPTOR:
         self.recognizer = ShapeRecognizer(CAM_WIDTH, CAM_HEIGHT)
         self.corrector = ShapeCorrector(CAM_WIDTH, CAM_HEIGHT)
         self.math_rec  = MathRecognizer()
-        self.ai        = AIAssistant(CHAT_PANEL_W, CAM_HEIGHT)
+
 
         # Estado
         self.mode          = "draw"   # draw | erase | analyze | idle
@@ -152,7 +151,6 @@ class RAPTOR:
             # Painel de chat (lado direito)
             full_frame = np.zeros((CAM_HEIGHT, TOTAL_WIDTH, 3), dtype=np.uint8)
             full_frame[:, :CAM_WIDTH] = composed
-            self.ai.render_panel(full_frame, x_offset=CAM_WIDTH)
 
             # Atualiza FPS
             self._update_fps()
@@ -161,22 +159,16 @@ class RAPTOR:
 
             # Processa teclas
             key = cv2.waitKey(1) & 0xFF
-            
-            # Se o chat estiver focado, envia todas as teclas para ele
-            if self.ai.is_focused:
-                self.ai.handle_key(key)
-            else:
-                # Atalhos globais (apenas se o chat NÃO estiver focado)
-                if key in (ord("q"), ord("Q"), 27):
-                    break
-                elif key == ord("z") or key == ord("Z"):
-                    self.canvas.undo()
-                elif key == ord("c") or key == ord("C"):
-                    self.canvas.clear()
-                elif key == ord("a") or key == ord("A"):
-                    self._trigger_analysis()
-                elif key == 9: # TAB para focar no chat
-                    self.ai.is_focused = True
+
+            # Atalhos globais (apenas se o chat NÃO estiver focado)
+            if key in (ord("q"), ord("Q"), 27):
+                break
+            elif key == ord("z") or key == ord("Z"):
+                self.canvas.undo()
+            elif key == ord("c") or key == ord("C"):
+                self.canvas.clear()
+            elif key == ord("a") or key == ord("A"):
+                self._trigger_analysis()
 
         self._cleanup()
 
@@ -319,14 +311,6 @@ class RAPTOR:
                 self.canvas.canvas = self.corrector.correct_and_draw(
                     self.canvas.canvas, shape, erase_original=True
                 )
-
-            # Exibe resumo no chat
-            summary = self._build_shape_summary(shapes)
-            self.ai.chat_history.append({
-                "role": "assistant",
-                "text": summary,
-                "time": __import__("datetime").datetime.now().strftime("%H:%M"),
-            })
         else:
             self.canvas.add_object("text", {"text": "Nenhuma forma detectada.", "pos": (CAM_WIDTH // 4, CAM_HEIGHT // 2)})
 
