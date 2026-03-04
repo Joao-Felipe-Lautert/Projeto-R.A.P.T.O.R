@@ -32,7 +32,6 @@ def install_packages():
         "opencv-python",
         "mediapipe",
         "numpy",
-        "openai",
         "sympy",
         "pytesseract",
         "Pillow",
@@ -67,7 +66,6 @@ def check_tesseract():
 
 
 def check_api_key():
-    print("\n[3/3] Verificando chave OpenAI...")
     key = os.environ.get("OPENAI_API_KEY", "")
     if key:
         print(f"[OK] OPENAI_API_KEY configurada ({key[:8]}...)")

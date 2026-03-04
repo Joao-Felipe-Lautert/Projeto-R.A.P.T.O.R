@@ -1,222 +1,110 @@
-# R.A.P.T.O.R. — Just A Rather Very Intelligent System
+# 🦖 R.A.P.T.O.R. — Real-time AI Processing & Tracking Operational Response
 
-> *"Bem-vindo ao futuro, senhor."*
-
-Sistema de visão computacional estilo Tony Stark que permite desenhar no ar com a mão, reconhecer formas geométricas, realizar cálculos matemáticos e conversar com uma IA — tudo em tempo real via webcam.
+O **R.A.P.T.O.R.** é um sistema avançado de **visão computacional** e **reconhecimento de gestos** que cria uma interface interativa e intuitiva. Utilizando a câmera do seu computador, o sistema permite desenhar no ar, reconhecer formas geométricas e resolver expressões matemáticas em tempo real.
 
 ---
 
-## Funcionalidades
+## 🚀 Funcionalidades Principais
 
-| Funcionalidade | Descrição |
-|---|---|
-| **Desenho no ar** | Use o dedo indicador como caneta virtual |
-| **Reconhecimento de formas** | Detecta círculos, retângulos, triângulos, elipses, polígonos |
-| **Cálculos automáticos** | Área, perímetro, raio, lados — exibidos automaticamente |
-| **Correção de formas** | Redesenha formas tortas de maneira geometricamente perfeita |
-| **Expressões matemáticas** | Reconhece contas desenhadas e coloca o resultado ao lado do `=` |
-| **Assistente de IA** | Responde perguntas por digitação usando GPT-4.1-mini (ou localmente) |
-| **Interface HUD** | Visual futurista estilo RAPTOR com painel de informações |
+*   **✍️ Desenho Virtual:** Utilize o dedo indicador para desenhar em um canvas digital sobreposto ao vídeo da câmera.
+*   **📐 Reconhecimento Geométrico:** Detecta e corrige automaticamente formas como círculos, quadrados, triângulos, pentágonos e muito mais.
+*   **📊 Cálculos em Tempo Real:** Calcula automaticamente área, perímetro, raio e outras propriedades das formas detectadas.
+*   **🔢 Solucionador Matemático:** Escreva expressões matemáticas no ar (ex: `15 * 3 =`) e o RAPTOR exibirá o resultado instantaneamente.
+*   **🎙️ Ativação por Voz:** Inicie o sistema através do comando de voz "Olá RAPTOR".
+*   **🧹 Controles por Gestos:** Limpe o canvas ou inicie análises apenas abrindo ou fechando a mão.
 
 ---
 
-## Requisitos do Sistema
+## 🛠️ Requisitos do Sistema
 
-- Python 3.10 ou superior
-- Webcam funcional
-- Tesseract OCR (para reconhecimento de expressões matemáticas)
-- Chave de API OpenAI (opcional, para respostas de IA completas com GPT-4.1-mini)
-- Conexão com a internet para download inicial do modelo `hand_landmarker.task` do MediaPipe.
+Este projeto foi desenvolvido e otimizado para as seguintes especificações:
+
+*   **Linguagem:** Python **3.11** (Recomendado)
+*   **Sistema Operacional:** Windows, Linux ou macOS.
+*   **Hardware:** Webcam funcional e microfone (para comandos de voz).
+*   **Dependência Externa:** [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) (necessário para reconhecimento matemático).
 
 ---
 
-## Instalação
+## 📦 Instalação e Configuração
 
-### 1. Clone ou extraia o projeto
-
+### 1. Clonar o Repositório
 ```bash
-cd Projeto-R.A.P.T.O.R-main
+git clone https://github.com/seu-usuario/Project-R.A.P.T.O.R.git
+cd Project-R.A.P.T.O.R
 ```
 
-### 2. Instale as dependências Python
-
+### 2. Instalar Dependências Python
+Recomendamos o uso de um ambiente virtual:
 ```bash
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+.\venv\Scripts\activate   # Windows
+
 pip install -r requirements.txt
 ```
 
-### 3. Instale o Tesseract OCR
+### 3. Instalar Tesseract OCR
+O Tesseract é essencial para a leitura de números e símbolos desenhados.
 
-**Windows:**
-```
-Baixe em: https://github.com/UB-Mannheim/tesseract/wiki
-Instale e adicione ao PATH do sistema
-```
-
-**Linux (Ubuntu/Debian):**
-```bash
-sudo apt-get install tesseract-ocr
-```
-
-**macOS:**
-```bash
-brew install tesseract
-```
-
-### 4. Configure a chave da OpenAI (opcional)
-
-```bash
-# Windows (PowerShell)
-$env:OPENAI_API_KEY = "sua-chave-aqui"
-
-# Linux / macOS
-export OPENAI_API_KEY="sua-chave-aqui"
-```
-
-> **Sem a chave OpenAI:** o assistente funciona em modo local com respostas básicas (hora, data, cálculos simples). Com a chave, responde qualquer pergunta via GPT-4.1-mini.
+*   **Windows:** Baixe o instalador em [UB-Mannheim](https://github.com/UB-Mannheim/tesseract/wiki) e adicione o diretório de instalação ao seu PATH.
+*   **Linux (Ubuntu/Debian):** `sudo apt-get install tesseract-ocr`
+*   **macOS:** `brew install tesseract`
 
 ---
 
-## Como Executar
+## 🎮 Como Utilizar
 
-```bash
-python raptor.py
-```
+### Inicialização
+Você pode iniciar o sistema diretamente ou via ativação por voz:
+*   **Direto:** `python raptor.py`
+*   **Voz:** `python voice_activation.py` (Diga "Olá RAPTOR" para começar)
 
-**Opções:**
-```bash
-python raptor.py --camera 0    # câmera padrão (índice 0)
-python raptor.py --camera 1    # segunda câmera
-```
-
----
-
-## Controles e Gestos
-
-### Gestos com a Mão
-
+### Controles por Gestos
 | Gesto | Ação |
-|---|---|
-| ☝️ **1 dedo** (indicador) | Modo desenho — mova o dedo para desenhar |
-| ✌️ **2 dedos** (indicador + médio) | Borracha — apaga onde o dedo passa |
-| 🖐️ **Mão aberta** (todos os dedos) | Analisa o desenho atual (segure 0.6s) |
-| ✊ **Punho fechado** | Limpa todo o canvas (segure 0.8s) |
+| :--- | :--- |
+| 👌 **Gesto de Pinça** | Modo Desenho (mova para riscar) |
+| ✌️ **Indicador + Médio** | Borracha (apaga traços específicos) |
+| 🖐️ **Mão Aberta (0.6s)** | Iniciar Análise (Formas/Matemática) |
 
-### Teclado
-
-| Tecla | Ação |
-|---|---|
-| `Z` | Desfazer última ação |
-| `C` | Limpar canvas |
-| `A` | Forçar análise imediata |
-| `Enter` | Enviar pergunta ao assistente |
-| `Backspace` | Apagar caractere digitado |
-| `Esc` | Limpar campo de texto |
-| `Q` ou `Esc` (sem texto) | Sair do programa |
+### Atalhos de Teclado
+*   `Z`: Desfazer última ação.
+*   `C`: Limpar canvas.
+*   `A`: Forçar análise imediata.
+*   `Q` ou `Esc`: Sair do programa.
 
 ---
 
-## Como Usar
+## 📂 Estrutura do Projeto
 
-### Desenhando e Calculando Formas
-
-1. **Levante apenas o indicador** para entrar no modo de desenho
-2. **Mova o dedo** para desenhar a forma desejada (círculo, quadrado, triângulo, etc.)
-3. **Abra a mão completamente** e **segure por ~0.6 segundos**
-4. O RAPTOR irá:
-   - Detectar a forma desenhada
-   - **Corrigir** a forma (redesenhar geometricamente perfeita)
-   - Exibir **área, perímetro e medidas** ao lado da forma
-
-### Calculando Expressões Matemáticas
-
-1. **Desenhe uma expressão** como `25 + 37 =` no ar com o dedo
-2. **Abra a mão** para analisar
-3. O resultado aparecerá **ao lado do sinal de igual**
-
-### Conversando com o Assistente
-
-1. **Digite sua pergunta** no campo de texto (painel direito)
-2. Pressione **Enter** para enviar
-3. O RAPTOR responderá no painel de chat
+| Arquivo | Descrição |
+| :--- | :--- |
+| `raptor.py` | Núcleo principal do sistema e interface de vídeo. |
+| `hand_tracker.py` | Motor de rastreamento de mãos via MediaPipe. |
+| `canvas.py` | Gerenciamento do canvas de desenho e estados. |
+| `shape_recognizer.py` | Lógica de detecção de formas geométricas. |
+| `math_recognizer.py` | Processamento de OCR e resolução matemática. |
+| `voice_activation.py` | Script de escuta para ativação por voz. |
 
 ---
 
-## Estrutura do Projeto
+## 🤝 Contribuição
 
-```
-Projeto-R.A.P.T.O.R-main/
-├── raptor.py           # Arquivo principal — execute este
-├── hand_tracker.py     # Rastreamento de mão (MediaPipe)
-├── canvas.py           # Canvas de desenho virtual
-├── shape_recognizer.py # Reconhecimento de formas geométricas
-├── shape_corrector.py  # Correção e renderização de formas
-├── math_recognizer.py  # Reconhecimento de expressões matemáticas
-├── ai_assistant.py     # Assistente de IA (OpenAI GPT)
-├── hand_landmarker.task # Modelo do MediaPipe para rastreamento de mãos
-├── requirements.txt    # Dependências Python
-├── setup.py            # Script de configuração e instalação
-└── README.md           # Este arquivo
-```
+Contribuições são bem-vindas! Sinta-se à vontade para abrir *Issues* ou enviar *Pull Requests*. Para mudanças maiores, por favor, abra uma discussão primeiro.
 
 ---
 
-## Formas Reconhecidas
+## 🤝 Colaboradores
 
-| Forma | Medidas Calculadas |
-|---|---|
-| **Círculo** | Raio, diâmetro, área (πr²), circunferência (2πr) |
-| **Elipse** | Semi-eixos, área (πab), perímetro (Ramanujan) |
-| **Retângulo** | Largura, altura, área (l×h), perímetro (2l+2h) |
-| **Quadrado** | Lado, área (l²), perímetro (4l) |
-| **Triângulo** | Lados, tipo (equilátero/isósceles/escaleno/retângulo), área (Heron), perímetro |
-| **Pentágono** | Área, perímetro |
-| **Hexágono** | Área, perímetro |
-| **Linha** | Comprimento, ângulo |
+Este projeto contou com a colaboração de:
+- [Felipe Prestes Belusso](https://github.com/FelipeBelusso)
+  
+Demais contribuições são bem-vindas! Sinta-se à vontade para abrir Issues ou enviar Pull Requests. Para mudanças maiores, por favor, abra uma discussão primeiro.
 
 ---
 
-## Dicas para Melhor Reconhecimento
+## 📄 Licença
 
-- **Iluminação:** Use ambiente bem iluminado, de preferência com luz frontal
-- **Fundo:** Prefira fundo escuro ou neutro atrás da mão
-- **Velocidade:** Desenhe devagar e com movimentos suaves
-- **Feche os traços:** Para formas fechadas (círculo, retângulo), conecte o início ao fim
-- **Distância:** Mantenha a mão a ~40-60 cm da câmera
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
----
-
-## Solução de Problemas
-
-**Câmera não abre:**
-```bash
-python raptor.py --camera 1  # tente outro índice
-```
-
-**Mão não detectada:**
-- Verifique a iluminação
-- Certifique-se que a mão está completamente visível na câmera
-
-**Tesseract não encontrado:**
-- Instale conforme as instruções acima
-- No Windows, adicione ao PATH: `C:\Program Files\Tesseract-OCR`
-
-**OpenAI não responde:**
-- Verifique se a variável `OPENAI_API_KEY` está definida
-- O assistente funciona offline com respostas básicas
-
----
-
-## Tecnologias Utilizadas
-
-| Tecnologia | Uso |
-|---|---|
-| **OpenCV** | Captura de vídeo, processamento de imagem, renderização |
-| **MediaPipe** | Detecção e rastreamento de landmarks da mão |
-| **NumPy** | Operações matriciais e geométricas |
-| **SymPy** | Avaliação de expressões matemáticas simbólicas |
-| **Tesseract OCR** | Reconhecimento de texto/números desenhados |
-| **OpenAI GPT-4.1-mini** | Respostas inteligentes do assistente |
-
----
-
-*"Sempre às ordens, senhor."* — R.A.P.T.O.R.
+*"Sempre às ordens, senhor."* — **R.A.P.T.O.R.**
