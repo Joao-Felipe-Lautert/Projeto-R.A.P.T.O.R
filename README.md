@@ -1,110 +1,183 @@
-# 🦖 R.A.P.T.O.R. — Real-time AI Processing & Tracking Operational Response
+# R.A.P.T.O.R. Touch - Sistema de Desenho Geométrico
 
-O **R.A.P.T.O.R.** é um sistema avançado de **visão computacional** e **reconhecimento de gestos** que cria uma interface interativa e intuitiva. Utilizando a câmera do seu computador, o sistema permite desenhar no ar, reconhecer formas geométricas e resolver expressões matemáticas em tempo real.
+## 📋 Descrição
 
----
+**R.A.P.T.O.R. Touch** é uma aplicação desktop Python que permite desenho geométrico interativo com reconhecimento automático de formas, cálculo de área e perímetro. Desenvolvida a partir do projeto original RAPTOR, mas adaptada para interface touch (mouse/trackpad) sem necessidade de câmera ou rastreamento de mãos.
 
-## 🚀 Funcionalidades Principais
+### Funcionalidades Principais
 
-*   **✍️ Desenho Virtual:** Utilize o dedo indicador para desenhar em um canvas digital sobreposto ao vídeo da câmera.
-*   **📐 Reconhecimento Geométrico:** Detecta e corrige automaticamente formas como círculos, quadrados, triângulos, pentágonos e muito mais.
-*   **📊 Cálculos em Tempo Real:** Calcula automaticamente área, perímetro, raio e outras propriedades das formas detectadas.
-*   **🔢 Solucionador Matemático:** Escreva expressões matemáticas no ar (ex: `15 * 3 =`) e o RAPTOR exibirá o resultado instantaneamente.
-*   **🎙️ Ativação por Voz:** Inicie o sistema através do comando de voz "Olá RAPTOR".
-*   **🧹 Controles por Gestos:** Limpe o canvas ou inicie análises apenas abrindo ou fechando a mão.
+- ✏️ **Desenho com Mouse/Touch** - Interface intuitiva para desenhar formas
+- 🔍 **Reconhecimento Automático de Formas** - Detecta círculos, retângulos, triângulos, linhas e polígonos
+- 📐 **Cálculo de Área e Perímetro** - Calcula automaticamente medidas em centímetros
+- 🎨 **Paleta de Cores RAPTOR** - Interface com identidade visual futurista (Azul Ciano + Magenta)
+- 🖌️ **Ferramentas de Edição** - Borracha, desfazer, limpar canvas
+- 📊 **Exibição de Dimensões** - Mostra medidas ao lado de cada forma detectada
 
----
+## 🚀 Instalação
 
-## 🛠️ Requisitos do Sistema
+### Pré-requisitos
 
-Este projeto foi desenvolvido e otimizado para as seguintes especificações:
+- Python 3.8+
+- pip (gerenciador de pacotes Python)
 
-*   **Linguagem:** Python **3.11** (Recomendado)
-*   **Sistema Operacional:** Windows, Linux ou macOS.
-*   **Hardware:** Webcam funcional e microfone (para comandos de voz).
-*   **Dependência Externa:** [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) (necessário para reconhecimento matemático).
+### Passos de Instalação
 
----
-
-## 📦 Instalação e Configuração
-
-### 1. Clonar o Repositório
+1. **Clone ou extraia o projeto:**
 ```bash
-git clone https://github.com/seu-usuario/Project-R.A.P.T.O.R.git
-cd Project-R.A.P.T.O.R
+cd RAPTOR-Touch-Python
 ```
 
-### 2. Instalar Dependências Python
-Recomendamos o uso de um ambiente virtual:
+2. **Instale as dependências:**
 ```bash
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-.\venv\Scripts\activate   # Windows
-
 pip install -r requirements.txt
 ```
 
-### 3. Instalar Tesseract OCR
-O Tesseract é essencial para a leitura de números e símbolos desenhados.
+## 🎮 Como Usar
 
-*   **Windows:** Baixe o instalador em [UB-Mannheim](https://github.com/UB-Mannheim/tesseract/wiki) e adicione o diretório de instalação ao seu PATH.
-*   **Linux (Ubuntu/Debian):** `sudo apt-get install tesseract-ocr`
-*   **macOS:** `brew install tesseract`
+### Iniciar a Aplicação
 
----
+```bash
+python raptor_touch.py
+```
 
-## 🎮 Como Utilizar
+A janela da aplicação será aberta com o canvas preto e os botões de controle na parte inferior.
 
-### Inicialização
-Você pode iniciar o sistema diretamente ou via ativação por voz:
-*   **Direto:** `python raptor.py`
-*   **Voz:** `python voice_activation.py` (Diga "Olá RAPTOR" para começar)
+### Controles
 
-### Controles por Gestos
-| Gesto | Ação |
-| :--- | :--- |
-| 👌 **Gesto de Pinça** | Modo Desenho (mova para riscar) |
-| ✌️ **Indicador + Médio** | Borracha (apaga traços específicos) |
-| 🖐️ **Mão Aberta (0.6s)** | Iniciar Análise (Formas/Matemática) |
+#### Interface Gráfica (Botões)
+- **Desenhar** - Ativa modo de desenho (padrão)
+- **Apagar** - Ativa modo de borracha
+- **Analisar** - Detecta e corrige formas desenhadas
+- **Desfazer** - Desfaz última ação
+- **Limpar** - Limpa todo o canvas
 
-### Atalhos de Teclado
-*   `Z`: Desfazer última ação.
-*   `C`: Limpar canvas.
-*   `A`: Forçar análise imediata.
-*   `Q` ou `Esc`: Sair do programa.
+#### Atalhos de Teclado
+- **D** - Modo de desenho
+- **E** - Modo de apagar
+- **A** - Analisar formas
+- **Z** - Desfazer
+- **C** - Limpar canvas
+- **Q ou ESC** - Sair da aplicação
 
----
+#### Mouse/Touch
+- **Clique e arraste** - Desenhar ou apagar (depende do modo)
+- **Clique em botão** - Ativar função
 
-## 📂 Estrutura do Projeto
+## 📐 Formas Suportadas
 
-| Arquivo | Descrição |
-| :--- | :--- |
-| `raptor.py` | Núcleo principal do sistema e interface de vídeo. |
-| `hand_tracker.py` | Motor de rastreamento de mãos via MediaPipe. |
-| `canvas.py` | Gerenciamento do canvas de desenho e estados. |
-| `shape_recognizer.py` | Lógica de detecção de formas geométricas. |
-| `math_recognizer.py` | Processamento de OCR e resolução matemática. |
-| `voice_activation.py` | Script de escuta para ativação por voz. |
+A aplicação reconhece automaticamente as seguintes formas:
 
----
+| Forma | Medidas Calculadas |
+|-------|-------------------|
+| **Círculo** | Raio, Diâmetro, Área, Circunferência |
+| **Retângulo/Quadrado** | Largura, Altura, Área, Perímetro |
+| **Triângulo** | Lados, Área (Heron), Perímetro, Tipo (Equilátero/Isósceles/Escaleno) |
+| **Elipse** | Semi-eixos, Área, Perímetro |
+| **Linha** | Comprimento, Ângulo |
+| **Polígonos** | Área, Perímetro |
 
-## 🤝 Contribuição
+## 🎨 Paleta de Cores
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir *Issues* ou enviar *Pull Requests*. Para mudanças maiores, por favor, abra uma discussão primeiro.
+A interface segue a identidade visual da logo RAPTOR:
 
----
+- **Azul Ciano** (#00FFFF) - Cor primária de desenho
+- **Magenta** (#FF00FF) - Cor de destaque/seleção
+- **Azul Profundo** (#0033FF) - Fundo
+- **Preto** (#000000) - Fundo do canvas
+- **Verde** (#00FF00) - Formas corrigidas
 
-## 🤝 Colaboradores
+## 📁 Estrutura do Projeto
 
-Este projeto contou com a colaboração de:
-- [Felipe Prestes Belusso](https://github.com/FelipeBelusso)
-  
-Demais contribuições são bem-vindas! Sinta-se à vontade para abrir Issues ou enviar Pull Requests. Para mudanças maiores, por favor, abra uma discussão primeiro.
+```
+RAPTOR-Touch-Python/
+├── raptor_touch.py          # Aplicação principal
+├── raptor_config.py         # Configurações e constantes
+├── shape_recognizer.py      # Módulo de reconhecimento de formas
+├── shape_corrector.py       # Módulo de correção e desenho de formas
+├── requirements.txt         # Dependências Python
+├── README.md               # Este arquivo
+└── RAPTOR_logo.jpg         # Logo da aplicação (referência)
+```
 
----
+## 🔧 Configuração
+
+Edite `raptor_config.py` para personalizar:
+
+- **Dimensões do canvas** - `CANVAS_WIDTH`, `CANVAS_HEIGHT`
+- **Tamanho do pincel** - `BRUSH_SIZE`
+- **Raio da borracha** - `ERASER_RADIUS`
+- **Cores** - Dicionário `COLORS`
+- **Conversão de pixels** - `PIXELS_PER_CM`
+
+## 📊 Exemplo de Uso
+
+1. Inicie a aplicação: `python raptor_touch.py`
+2. Desenhe um círculo no canvas
+3. Clique em **Analisar**
+4. A aplicação detectará o círculo, corrigirá a forma e exibirá:
+   - Raio em cm
+   - Diâmetro em cm
+   - Área em cm²
+   - Circunferência em cm
+
+## 🐛 Troubleshooting
+
+### Erro: "ModuleNotFoundError: No module named 'cv2'"
+**Solução:** Instale opencv-python
+```bash
+pip install opencv-python
+```
+
+### Erro: "ModuleNotFoundError: No module named 'numpy'"
+**Solução:** Instale numpy
+```bash
+pip install numpy
+```
+
+### A janela não aparece
+**Solução:** Verifique se você tem um gerenciador de janelas funcionando. Em sistemas headless, use:
+```bash
+export DISPLAY=:0
+python raptor_touch.py
+```
+
+## 📝 Notas Técnicas
+
+- **Conversão de Medidas**: O sistema usa 37.8 pixels por centímetro (padrão 96 DPI)
+- **Reconhecimento**: Usa OpenCV com análise de contornos e aproximação poligonal
+- **Histórico**: Mantém até 20 ações para desfazer
+- **Suavização**: Aplica dilatação para conectar traços próximos
+
+## 🔄 Diferenças da Versão Original
+
+| Recurso | Original | Touch |
+|---------|----------|-------|
+| Entrada | Câmera + Rastreamento de mãos | Mouse/Touch |
+| Gestos | Pinça, 2 dedos, mão aberta | Cliques e botões |
+| Interface | Overlay em tempo real | Botões dedicados |
+| Plataforma | Windows/Linux | Windows/Mac/Linux |
+| Dependências | MediaPipe, Tesseract | OpenCV, NumPy |
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto é baseado no RAPTOR original e mantém a mesma filosofia educacional.
 
-*"Sempre às ordens, senhor."* — **R.A.P.T.O.R.**
+## 👨‍💻 Desenvolvimento
+
+Desenvolvido com Python 3.8+ usando:
+- **OpenCV** - Processamento de imagem e reconhecimento de formas
+- **NumPy** - Operações numéricas e manipulação de arrays
+
+## 💡 Próximas Melhorias
+
+- [ ] Salvar/carregar desenhos em arquivo
+- [ ] Exportar imagens com medidas
+- [ ] Modo de medição manual com dimensões desenhadas
+- [ ] Suporte a múltiplas cores de desenho
+- [ ] Histórico visual de operações
+
+---
+
+**Versão:** 1.0  
+**Data:** 2026  
+**Autor:** R.A.P.T.O.R. Team
